@@ -1,3 +1,27 @@
+use std::fs::File;
+use std::io::Read;
+use std::time::Duration;
+
+mod constants;
+mod evil;
+mod scheduler;
+mod sfc;
+
 fn main() {
-    println!("Hello, world!");
+    let args: Vec<String> = std::env::args().collect();
+    if args.len() != 2 {
+        panic!("Usage: {} <rom_file>", &args[0]);
+    }
+
+    let rom_path = &args[1];
+    let mut file = File::open(rom_path).unwrap();
+    let mut buf = Vec::new();
+    let _ = file.read_to_end(&mut buf).unwrap();
+    let mut s = sfc::SuperFamicom::new(&buf);
+
+    loop {
+        println!("Frame: {}", s.frame_count());
+        s.run_frame();
+        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
+    }
 }
