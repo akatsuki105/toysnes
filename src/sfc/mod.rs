@@ -28,4 +28,8 @@ impl SuperFamicom {
     pub fn cartridge_info(&self) {
         println!("{}", cpu::get().cartridge);
     }
+
+    pub fn unimplemented_opcode(&self) -> [bool; 256] {
+        return cpu::get().unimplemented();
+    }
 }

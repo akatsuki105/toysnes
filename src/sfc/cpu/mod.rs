@@ -3,6 +3,8 @@ mod instruction;
 mod register;
 mod table;
 
+use std::ptr;
+
 use once_cell::sync::Lazy;
 
 use crate::constants::WRAM_SIZE;
@@ -11,6 +13,10 @@ use crate::scheduler;
 use super::cartridge;
 
 static mut CPU: Lazy<Cpu> = Lazy::new(|| new());
+
+const FAST: i64 = 6; // 6 * (3.58/3.58)
+const MEDIUM: i64 = 8; // 6 * (3.58/2.68)
+const SLOW: i64 = 12; // 6 * (3.58/1.78)
 
 pub struct Cpu {
     pub cartridge: cartridge::Cartridge,
@@ -102,17 +108,22 @@ impl Cpu {
             let c = mem_access_cycles(bank, addr);
             add_cycles(c);
         }
+        todo!();
         return 0;
     }
 
     /// Load two bytes from CPU bus(= WRAM or IO)
     fn load16(&self, bank: u8, addr: u16, cycles: Option<&mut i64>) -> u16 {
+        todo!();
         return 0;
     }
 
     fn imm8(&mut self) -> u8 {
-        let s = scheduler::get_mut();
         return self.load8(self.r.pc.bank, self.r.pc.offset, Some(cycles()));
+    }
+
+    fn set_imm8(&mut self, val: u8) {
+        self.store8(self.r.pc.bank, self.r.pc.offset, val, Some(cycles()));
     }
 
     fn imm16(&self) -> u16 {
@@ -123,14 +134,26 @@ impl Cpu {
             Some(&mut s.relative_cycles),
         );
     }
+
+    fn set_imm16(&mut self, val: u16) {
+        self.store16(self.r.pc.bank, self.r.pc.offset, val, Some(cycles()));
+    }
+
+    fn store8(&mut self, bank: u8, addr: u16, val: u8, cycles: Option<&mut i64>) {
+        todo!();
+    }
+
+    fn store16(&mut self, bank: u8, addr: u16, val: u16, cycles: Option<&mut i64>) {
+        todo!();
+    }
+
+    pub fn unimplemented(&self) -> [bool; 256] {
+        return self.table.unimplemented();
+    }
 }
 
 /// This func is inspired by breeze-emu's do_io_cycle
 fn mem_access_cycles(bank: u8, addr: u16) -> i64 {
-    const FAST: i64 = 6; // 6 * (3.58/3.58)
-    const MEDIUM: i64 = 8; // 6 * (3.58/2.68)
-    const SLOW: i64 = 12; // 6 * (3.58/1.78)
-
     let c = match bank {
         0x00..=0x3f => match addr {
             0x0000..=0x1fff | 0x6000..=0xffff => MEDIUM,

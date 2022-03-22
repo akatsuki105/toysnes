@@ -1,3 +1,5 @@
+use std::ptr;
+
 use super::instruction::*;
 use super::Cpu;
 
@@ -24,6 +26,21 @@ pub struct OpcodeTable {
     pub m0x1: [Opcode; 256],
 }
 
+impl OpcodeTable {
+    pub fn unimplemented(&self) -> [bool; 256] {
+        let mut result = [false; 256];
+
+        for i in 0..256 {
+            result[i] = ptr::eq(
+                self.e1[i] as *const Opcode,
+                _default_opcode as *const Opcode,
+            );
+        }
+
+        return result;
+    }
+}
+
 impl Default for OpcodeTable {
     fn default() -> Self {
         let mut ot = Self {
@@ -48,8 +65,14 @@ fn setup_e1(tbl: &mut [Opcode; 256]) {
     tbl[0x01] = op01::e1;
     tbl[0x02] = op02;
     tbl[0x03] = op03::m1;
+    tbl[0x04] = op04;
     tbl[0x09] = op09::m1;
     tbl[0x29] = op29::m1;
+    tbl[0xc6] = opC6::m1;
+    tbl[0xd6] = opD6::m1;
+    tbl[0xe6] = opE6::m1;
+    tbl[0xee] = opEE::m1;
+    tbl[0xfe] = opFE::m1;
 }
 
 fn setup_m1x1(tbl: &mut [Opcode; 256]) {
@@ -57,8 +80,14 @@ fn setup_m1x1(tbl: &mut [Opcode; 256]) {
     tbl[0x01] = op01::e0m1;
     tbl[0x02] = op02;
     tbl[0x03] = op03::m1;
+    tbl[0x04] = op04;
     tbl[0x09] = op09::m1;
     tbl[0x29] = op29::m1;
+    tbl[0xc6] = opC6::m1;
+    tbl[0xd6] = opD6::m1;
+    tbl[0xe6] = opE6::m1;
+    tbl[0xee] = opEE::m1;
+    tbl[0xfe] = opFE::m1;
 }
 
 fn setup_m1x0(tbl: &mut [Opcode; 256]) {
@@ -66,8 +95,14 @@ fn setup_m1x0(tbl: &mut [Opcode; 256]) {
     tbl[0x01] = op01::e0m1;
     tbl[0x02] = op02;
     tbl[0x03] = op03::m1;
+    tbl[0x04] = op04;
     tbl[0x09] = op09::m1;
     tbl[0x29] = op29::m1;
+    tbl[0xc6] = opC6::m1;
+    tbl[0xd6] = opD6::m1;
+    tbl[0xe6] = opE6::m1;
+    tbl[0xee] = opEE::m1;
+    tbl[0xfe] = opFE::m1;
 }
 
 fn setup_m0x0(tbl: &mut [Opcode; 256]) {
@@ -75,8 +110,14 @@ fn setup_m0x0(tbl: &mut [Opcode; 256]) {
     tbl[0x01] = op01::e0m0;
     tbl[0x02] = op02;
     tbl[0x03] = op03::m0;
+    tbl[0x04] = op04;
     tbl[0x09] = op09::m0;
     tbl[0x29] = op29::m0;
+    tbl[0xc6] = opC6::m0;
+    tbl[0xd6] = opD6::m1;
+    tbl[0xe6] = opE6::m0;
+    tbl[0xee] = opEE::m0;
+    tbl[0xfe] = opFE::m0;
 }
 
 fn setup_m0x1(tbl: &mut [Opcode; 256]) {
@@ -84,6 +125,12 @@ fn setup_m0x1(tbl: &mut [Opcode; 256]) {
     tbl[0x01] = op01::e0m0;
     tbl[0x02] = op02;
     tbl[0x03] = op03::m0;
+    tbl[0x04] = op04;
     tbl[0x09] = op09::m0;
     tbl[0x29] = op29::m0;
+    tbl[0xc6] = opC6::m0;
+    tbl[0xd6] = opD6::m1;
+    tbl[0xe6] = opE6::m0;
+    tbl[0xee] = opEE::m0;
+    tbl[0xfe] = opFE::m0;
 }

@@ -35,6 +35,13 @@ pub struct PC {
     pub offset: u16,
 }
 
+impl PC {
+    pub fn set(&mut self, bank: u8, offset: u16) {
+        self.bank = bank;
+        self.offset = offset;
+    }
+}
+
 impl Register {
     pub fn new() -> Self {
         Self {
