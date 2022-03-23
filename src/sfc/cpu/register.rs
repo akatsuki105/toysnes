@@ -36,6 +36,10 @@ pub struct PC {
 }
 
 impl PC {
+    pub fn word(&self) -> u32 {
+        return ((self.bank as u32) << 16) | (self.offset as u32);
+    }
+
     pub fn set(&mut self, bank: u8, offset: u16) {
         self.bank = bank;
         self.offset = offset;

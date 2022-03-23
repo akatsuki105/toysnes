@@ -33,3 +33,13 @@ impl SuperFamicom {
         return cpu::get().unimplemented();
     }
 }
+
+/// This is is inspired by snes9x's S9xGetWord
+pub fn load8(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u8 {
+    todo!()
+}
+
+/// This is is inspired by snes9x's S9xGetWord
+pub fn load16(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u16 {
+    todo!()
+}

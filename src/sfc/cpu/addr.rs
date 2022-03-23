@@ -1,14 +1,5 @@
 use super::{add_cycles, cycles, Cpu};
-use crate::scheduler::{self};
-
-pub enum AccessMode {
-    NONE = 0,
-    READ = 1,
-    WRITE = 2,
-    MODIFY = 3,
-    JUMP = 5,
-    JSR = 8,
-}
+use crate::sfc::load16;
 
 impl Cpu {
     /// `[DB:nnnn]`
@@ -56,7 +47,7 @@ impl Cpu {
     /// `[WORD[D+nn+X]]`
     pub fn indirect_x(&mut self) -> (u8, u16) {
         let (_, iaddr) = self.direct_x();
-        let addr = self.load16(0, iaddr, Some(cycles()));
+        let addr = load16(0, iaddr, Some(cycles()));
         return (self.r.db, addr);
     }
 
