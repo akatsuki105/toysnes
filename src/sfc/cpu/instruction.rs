@@ -183,19 +183,19 @@ pub mod opAA {}
 /// DEC nn
 pub mod opC6 {
     use super::Cpu;
-    use crate::sfc::{cpu::cycles, load16, load8};
+    use crate::sfc::{cpu::cycles, load16, load8, store16, store8};
 
     pub fn m0(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.direct();
         let incremented = load16(bank, addr, Some(cycles())).wrapping_sub(1);
-        c.store16(bank, addr, incremented, Some(cycles()));
+        store16(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented);
     }
 
     pub fn m1(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.direct();
         let incremented = load8(bank, addr, Some(cycles())).wrapping_sub(1);
-        c.store8(bank, addr, incremented, Some(cycles()));
+        store8(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented as u16);
     }
 }
@@ -203,19 +203,19 @@ pub mod opC6 {
 /// DEC nn,X
 pub mod opD6 {
     use super::Cpu;
-    use crate::sfc::{cpu::cycles, load16, load8};
+    use crate::sfc::{cpu::cycles, load16, load8, store16, store8};
 
     pub fn m0(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.direct_x();
         let incremented = load16(bank, addr, Some(cycles())).wrapping_sub(1);
-        c.store16(bank, addr, incremented, Some(cycles()));
+        store16(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented);
     }
 
     pub fn m1(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.direct_x();
         let incremented = load8(bank, addr, Some(cycles())).wrapping_sub(1);
-        c.store8(bank, addr, incremented, Some(cycles()));
+        store8(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented as u16);
     }
 }
@@ -223,19 +223,19 @@ pub mod opD6 {
 /// INC nn
 pub mod opE6 {
     use super::Cpu;
-    use crate::sfc::{cpu::cycles, load16, load8};
+    use crate::sfc::{cpu::cycles, load16, load8, store16, store8};
 
     pub fn m0(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.direct();
         let incremented = load16(bank, addr, Some(cycles())).wrapping_add(1);
-        c.store16(bank, addr, incremented, Some(cycles()));
+        store16(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented);
     }
 
     pub fn m1(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.direct();
         let incremented = load8(bank, addr, Some(cycles())).wrapping_add(1);
-        c.store8(bank, addr, incremented, Some(cycles()));
+        store8(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented as u16);
     }
 }
@@ -243,19 +243,19 @@ pub mod opE6 {
 /// INC nnnn
 pub mod opEE {
     use super::Cpu;
-    use crate::sfc::{cpu::cycles, load16, load8};
+    use crate::sfc::{cpu::cycles, load16, load8, store16, store8};
 
     pub fn m0(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.absolute();
         let incremented = load16(bank, addr, Some(cycles())).wrapping_add(1);
-        c.store16(bank, addr, incremented, Some(cycles()));
+        store16(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented);
     }
 
     pub fn m1(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.absolute();
         let incremented = load8(bank, addr, Some(cycles())).wrapping_add(1);
-        c.store8(bank, addr, incremented, Some(cycles()));
+        store8(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented as u16);
     }
 }
@@ -263,19 +263,19 @@ pub mod opEE {
 /// INC nnnn,X
 pub mod opFE {
     use super::Cpu;
-    use crate::sfc::{cpu::cycles, load16, load8};
+    use crate::sfc::{cpu::cycles, load16, load8, store16, store8};
 
     pub fn m0(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.absolute_x();
         let incremented = load16(bank, addr, Some(cycles())).wrapping_add(1);
-        c.store16(bank, addr, incremented, Some(cycles()));
+        store16(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented);
     }
 
     pub fn m1(c: &mut Cpu, _: u8) {
         let (bank, addr) = c.absolute_x();
         let incremented = load8(bank, addr, Some(cycles())).wrapping_add(1);
-        c.store8(bank, addr, incremented, Some(cycles()));
+        store8(bank, addr, incremented, Some(cycles()));
         c.r.p.set_zn(incremented as u16);
     }
 }

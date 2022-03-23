@@ -34,7 +34,7 @@ impl SuperFamicom {
     }
 }
 
-/// This is is inspired by snes9x's S9xGetWord
+/// This is is inspired by snes9x's S9xGetByte
 pub fn load8(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u8 {
     todo!()
 }
@@ -42,4 +42,14 @@ pub fn load8(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u8 {
 /// This is is inspired by snes9x's S9xGetWord
 pub fn load16(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u16 {
     todo!()
+}
+
+/// This is is inspired by snes9x's S9xSetByte
+fn store8(bank: u8, addr: u16, val: u8, cycles: Option<&mut i64>) {
+    todo!();
+}
+
+/// This is is inspired by snes9x's S9xSetWord
+fn store16(bank: u8, addr: u16, val: u16, cycles: Option<&mut i64>) {
+    todo!();
 }

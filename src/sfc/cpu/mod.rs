@@ -10,7 +10,7 @@ use once_cell::sync::Lazy;
 use crate::constants::WRAM_SIZE;
 use crate::scheduler;
 
-use super::cartridge;
+use super::{cartridge, store16, store8};
 
 static mut CPU: Lazy<Cpu> = Lazy::new(|| new());
 
@@ -115,7 +115,7 @@ impl Cpu {
     }
 
     fn set_imm8(&mut self, val: u8) {
-        self.store8(self.r.pc.bank, self.r.pc.offset, val, Some(cycles()));
+        store8(self.r.pc.bank, self.r.pc.offset, val, Some(cycles()));
     }
 
     fn imm16(&mut self) -> u16 {
@@ -127,15 +127,7 @@ impl Cpu {
     }
 
     fn set_imm16(&mut self, val: u16) {
-        self.store16(self.r.pc.bank, self.r.pc.offset, val, Some(cycles()));
-    }
-
-    fn store8(&mut self, bank: u8, addr: u16, val: u8, cycles: Option<&mut i64>) {
-        todo!();
-    }
-
-    fn store16(&mut self, bank: u8, addr: u16, val: u16, cycles: Option<&mut i64>) {
-        todo!();
+        store16(self.r.pc.bank, self.r.pc.offset, val, Some(cycles()));
     }
 
     pub fn unimplemented(&self) -> [bool; 256] {
