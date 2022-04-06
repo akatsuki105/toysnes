@@ -1,5 +1,6 @@
 mod addr;
 mod instruction;
+mod io;
 mod register;
 mod table;
 
@@ -7,16 +8,12 @@ use std::ptr;
 
 use once_cell::sync::Lazy;
 
-use crate::constants::WRAM_SIZE;
+use crate::constants::{MEDIUM, WRAM_SIZE};
 use crate::scheduler;
 
 use super::{cartridge, store16, store8};
 
 static mut CPU: Lazy<Cpu> = Lazy::new(|| new());
-
-const FAST: i64 = 6; // 6 * (3.58/3.58)
-const MEDIUM: i64 = 8; // 6 * (3.58/2.68)
-const SLOW: i64 = 12; // 6 * (3.58/1.78)
 
 pub struct Cpu {
     pub cartridge: cartridge::Cartridge,
@@ -136,27 +133,4 @@ impl Cpu {
 
     /// This func is inspired by snes9x's S9xSetPCBase
     pub fn set_active_region(&mut self, addr: u32) {}
-}
-
-/// This func is inspired by breeze-emu's do_io_cycle
-fn mem_access_cycles(bank: u8, addr: u16) -> i64 {
-    let c = match bank {
-        0x00..=0x3f => match addr {
-            0x0000..=0x1fff | 0x6000..=0xffff => MEDIUM,
-            0x4000..=0x41ff => SLOW,
-            _ => FAST,
-        },
-        0x40..=0x7f => MEDIUM,
-        0x80..=0xbf => {
-            match addr {
-                0x0000..=0x1fff | 0x6000..=0x7fff => MEDIUM,
-                0x4000..=0x41ff => SLOW,
-                0x8000..=0xffff => MEDIUM, // TODO
-                _ => FAST,
-            }
-        }
-        0xc0..=0xff => MEDIUM, // TODO
-        _ => FAST,
-    };
-    return c;
 }

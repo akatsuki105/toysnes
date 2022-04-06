@@ -5,9 +5,8 @@ pub fn op00(c: &mut Cpu, _: u8) {}
 
 /// ORA (nn, X)
 pub mod op01 {
-    use super::super::super::{load16, load8};
     use super::Cpu;
-    use crate::sfc::cpu::cycles;
+    use crate::sfc::{cpu::cycles, load16, load8};
 
     /// This func is inspired by snes9x's Op01E0M0
     pub fn e0m0(c: &mut Cpu, _: u8) {

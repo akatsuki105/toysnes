@@ -3,7 +3,6 @@ use std::io::Read;
 use std::time::Duration;
 
 mod constants;
-mod evil;
 mod scheduler;
 mod sfc;
 

@@ -1,8 +1,13 @@
 mod cartridge;
+mod constants;
 mod cpu;
+mod helper;
 mod ppu;
 
+use self::helper::memory_speed;
+
 use super::scheduler;
+use constants::MEMMAP_SHIFT;
 
 pub struct SuperFamicom {}
 
@@ -36,7 +41,13 @@ impl SuperFamicom {
 
 /// This is is inspired by snes9x's S9xGetByte
 pub fn load8(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u8 {
-    todo!()
+    let addr = ((bank as u32) << 16) | (ofs as u32);
+    let block = (addr & 0xff_ffff) >> MEMMAP_SHIFT; // bit12-24
+    let speed = memory_speed(addr);
+
+    match &block {
+        _ => panic!(""),
+    }
 }
 
 /// This is is inspired by snes9x's S9xGetWord
