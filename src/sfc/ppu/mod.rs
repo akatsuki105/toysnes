@@ -38,3 +38,15 @@ fn increment_frame(_: i64) {
 pub fn frame() -> u64 {
     return get_mut().frame_counter;
 }
+
+impl Ppu {
+    /// This func is inspired by snes9x's S9xGetPPU
+    pub fn read8(&mut self, addr: u16) -> u8 {
+        return 0;
+    }
+
+    /// This func is inspired by snes9x's S9xSetPPU
+    pub fn write8(&mut self, addr: u16, val: u8) {
+        todo!()
+    }
+}

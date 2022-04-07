@@ -5,7 +5,6 @@ mod helper;
 mod ppu;
 
 use self::helper::memory_speed;
-
 use super::scheduler;
 use constants::MEMMAP_SHIFT;
 
@@ -39,14 +38,30 @@ impl SuperFamicom {
     }
 }
 
+/// Load a single byte from SNES memory.
+///
 /// This is is inspired by snes9x's S9xGetByte
 pub fn load8(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u8 {
     let addr = ((bank as u32) << 16) | (ofs as u32);
-    let block = (addr & 0xff_ffff) >> MEMMAP_SHIFT; // bit12-24
+    let hi = ofs >> MEMMAP_SHIFT; // bit12-24
     let speed = memory_speed(addr);
 
-    match &block {
-        _ => panic!(""),
+    match &bank {
+        // CPU
+        0x00..=0x3f | 0x80..=0xbf if (hi == 4 || hi == 5) => {
+            let result = cpu::get_mut().read_io8(ofs);
+            cpu::add_cycles(speed);
+            return result;
+        }
+
+        // PPU
+        0x00..=0x3f | 0x80..=0xbf if hi == 2 => {
+            let result = ppu::get_mut().read8(ofs);
+            cpu::add_cycles(speed);
+            return result;
+        }
+
+        _ => return 0xff,
     }
 }
 
