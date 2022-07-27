@@ -1,0 +1,26 @@
+name: release
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    release-macos-aarch64:
+        runs-on: ubuntu-20.04
+
+        steps:
+            - uses: actions/checkout@v2
+            
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 18
+
+            - uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  target: aarch64-apple-darwin
+
+            - run: >
+                  cd core &&
+                  cargo build --release --target aarch64-apple-darwin

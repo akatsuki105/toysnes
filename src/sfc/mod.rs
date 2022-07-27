@@ -54,11 +54,12 @@ pub fn load8(bank: u8, ofs: u16, cycles: Option<&mut i64>) -> u8 {
             return result;
         }
 
-        // PPU
+        // IO
         0x00..=0x3f | 0x80..=0xbf if hi == 2 => {
-            let result = ppu::get_mut().read8(ofs);
+            // let result = ppu::get_mut().read8(ofs);
             cpu::add_cycles(speed);
-            return result;
+            todo!();
+            return 0;
         }
 
         _ => return 0xff,
