@@ -6,7 +6,7 @@ on:
             - main
 
 jobs:
-    release-macos-aarch64:
+    build:
         runs-on: ubuntu-20.04
 
         steps:
@@ -21,6 +21,4 @@ jobs:
                   toolchain: stable
                   target: aarch64-apple-darwin
 
-            - run: >
-                  cd core &&
-                  cargo build --release --target aarch64-apple-darwin
+            - run: cargo build --release --target aarch64-apple-darwin
